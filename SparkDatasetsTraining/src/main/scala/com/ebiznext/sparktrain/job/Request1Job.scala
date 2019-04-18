@@ -1,5 +1,6 @@
 package com.ebiznext.sparktrain.job
 
+import com.alvinalexander.accesslogparser.AccessLogRecord
 import com.ebiznext.sparktrain.conf.Settings
 import org.apache.hadoop.fs.Path
 import com.ebiznext.sparktrain.data.IOJob._
@@ -13,9 +14,13 @@ object Request1Job extends RequestJob {
 
     def run() ={
         import sparkSession.implicits._
+        val demographicsDs=readCSV(new Path(Settings.sparktrain.inputPath++"population_per_country_2017.csv"),";")
+        val accessLogDs: Dataset[AccessLogRecord] =read(new Path(Settings.sparktrain.inputPath++"accesslog2000.log"))
 
-        val df=getAllData().select($"request.uri",$"country",$"population")
-                            .groupBy($"uri",$"country",$"population").agg(count("*") as "count")
+        val df=accessLogDs.join(demographicsDs,"country")
+                            .select($"request.uri",$"country",$"population")
+                            .groupBy($"uri",$"country",$"population")
+                            .agg(count("*") as "count")
 
         val countWin = Window.partitionBy($"country")
           .orderBy($"count".desc)

@@ -3,10 +3,9 @@ package com.alvinalexander.accesslogparser
 import java.util.regex.Pattern
 import java.text.SimpleDateFormat
 import java.util.Locale
-
 import scala.util.control.Exception._
 import java.util.regex.Matcher
-
+import GeoDataHandler._
 import org.uaparser.scala.UserAgent.UserAgentParser
 import org.uaparser.scala._
 
@@ -73,6 +72,7 @@ class AccessLogParser extends Serializable {
     private def buildAccessLogRecord(matcher: Matcher) = {
         AccessLogRecord(
             matcher.group(1),
+            findIp(matcher.group(1)).countryName,
             matcher.group(2),
             matcher.group(3),
             matcher.group(4),
@@ -90,7 +90,7 @@ class AccessLogParser extends Serializable {
  */
 object AccessLogParser {
 
-    val nullObjectAccessLogRecord = AccessLogRecord("", "", "", "",None, "", "", "",Client(UserAgent("",None,None,None),OS("",None,None,None,None),Device("",None,None)) )
+    val nullObjectAccessLogRecord = AccessLogRecord("","", "", "", "",None, "", "", "",Client(UserAgent("",None,None,None),OS("",None,None,None,None),Device("",None,None)) )
     
     /**
      * @param A String like "GET /the-uri-here HTTP/1.1"

@@ -46,7 +46,7 @@ lazy val scalaApacheAccessLogParser=project
                                     
                                         scalacOptions += "-deprecation",
                                     
-                                        libraryDependencies ++=commonDependencies
+                                        libraryDependencies ++=commonDependencies ++ accessLogParserDependencies 
                                       )
                                       .dependsOn(uapScala)
 

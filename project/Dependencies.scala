@@ -11,12 +11,9 @@ object Dependencies {
     ExclusionRule(organization = "com.fasterxml.jackson.core"),
     ExclusionRule(organization = "org.codehaus.jackson")
   )
-  
+
   lazy val sparkDataTrainDependencies=Seq(
     "org.elasticsearch" % "elasticsearch-hadoop" % Versions.esHadoop,
-    "com.snowplowanalytics" %% "scala-maxmind-iplookups" % Versions.mmIpLookup,
-    "org.typelevel"         %% "cats-effect"          % "0.10.1",
-    "org.typelevel"         %% "cats-core"            % "1.1.0",
     "com.typesafe.scala-logging" %% "scala-logging" % Versions.scalaLogging,
     "com.github.kxbmap" %% "configs" % Versions.configs,
     "com.fasterxml.jackson.core" % "jackson-core" % Versions.jackson,
@@ -28,6 +25,12 @@ object Dependencies {
     "org.apache.spark" %% "spark-hive" % Versions.spark
   )
 
+  lazy val accessLogParserDependencies=Seq(
+    "com.snowplowanalytics" %% "scala-maxmind-iplookups" % Versions.mmIpLookup,
+    "org.typelevel"         %% "cats-effect"          % "0.10.1",
+    "org.typelevel"         %% "cats-core"            % "1.1.0"
+  )
+  
   lazy val userAgentParserDependencies=Seq(
     "org.yaml" % "snakeyaml" % Versions.snakeyaml,
     "org.specs2" %% "specs2-core" % Versions.specs2core % "test"

@@ -28,7 +28,7 @@ object InputData {
 
 
   case class Demographics(
-                           countryName:String,
+                           country:String,
                            population:Long
                          )
 }

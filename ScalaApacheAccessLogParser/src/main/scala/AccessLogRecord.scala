@@ -7,6 +7,7 @@ import org.uaparser.scala.Client
  */
 case class AccessLogRecord (
                              clientIpAddress: String, // should be an ip address, but may also be the hostname if hostname-lookups are enabled
+                             country:String, //Country
                              rfc1413ClientIdentity: String, // typically `-`
                              remoteUser: String, // typically `-`
                              dateTime: String, // [day/month/year:hour:minute:second zone]

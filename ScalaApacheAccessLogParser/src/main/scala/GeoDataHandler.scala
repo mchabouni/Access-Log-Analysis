@@ -1,4 +1,4 @@
-package com.ebiznext.sparktrain.handler
+package com.alvinalexander.accesslogparser
 
 import cats.effect.IO
 import com.snowplowanalytics.maxmind.iplookups.model.IpLocation
