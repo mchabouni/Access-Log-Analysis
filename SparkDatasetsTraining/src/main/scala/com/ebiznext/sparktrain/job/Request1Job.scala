@@ -17,10 +17,10 @@ object Request1Job extends SparkJob {
         val demographicsDs=readCSV(new Path(Settings.sparktrain.inputPath++"population_per_country_2017.csv"),";")
         val accessLogDs: Dataset[AccessLogRecord] =read(new Path(Settings.sparktrain.inputPath++"accesslog2000.log"))
 
-        val df=accessLogDs.join(demographicsDs,"country")
-                            .select($"request.uri",$"country",$"population")
-                            .groupBy($"uri",$"country",$"population")
+        val df=accessLogDs.select($"request.uri",$"country")
+                            .groupBy($"uri",$"country")
                             .agg(count("*") as "count")
+                            .join(demographicsDs,"country")
 
         val countWin = Window.partitionBy($"country")
           .orderBy($"count".desc)

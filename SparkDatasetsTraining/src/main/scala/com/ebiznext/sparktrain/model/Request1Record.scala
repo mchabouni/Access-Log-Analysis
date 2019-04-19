@@ -9,7 +9,7 @@ package com.ebiznext.sparktrain.model
 case class Request1Record(
                            uri:String,
                            country:String,
-                           population:Long,
                            count:Long,
-                           rank:Long
+                           population:Long,
+                           rank:Int
                          )
