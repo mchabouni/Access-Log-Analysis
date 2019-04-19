@@ -29,7 +29,7 @@ class ApacheCombinedAccessLogRecordSpec extends FunSpec with BeforeAndAfter with
           And("remote user")
               assert(rec.get.remoteUser == "-")          
           And("date/time")
-              assert(rec.get.dateTime == "[21/Jul/2009:02:48:11 -0700]")          
+              assert(rec.get.dateTime == "[21/Jul/2009:02:48:11 -0700]")
           And("request")
               assert(rec.get.request == "GET /java/edu/pj/pj010004/pj010004.shtml HTTP/1.1")          
           And("status code should be 200")
@@ -144,20 +144,16 @@ class ApacheCombinedAccessLogRecordSpec extends FunSpec with BeforeAndAfter with
           assert(result == None)
       }
   }
-  
+
   describe("Parsing the date field ...") {
       it("a valid date field should work") {
           val date = AccessLogParser.parseDateField("[21/Jul/2009:02:48:13 -0700]")
           assert(date != None)
           date.foreach { d =>
-              val cal = Calendar.getInstance
-              cal.setTimeInMillis(d.getTime)
-              assert(cal.get(Calendar.YEAR) == 2009)
-              assert(cal.get(Calendar.MONTH) == 6)  // 0-based
-              assert(cal.get(Calendar.DAY_OF_MONTH) == 21)
-              assert(cal.get(Calendar.HOUR) == 2)
-              assert(cal.get(Calendar.MINUTE) == 48)
-              assert(cal.get(Calendar.SECOND) == 13)
+                        val dateArr = d.split("-")
+                        assert(dateArr(0)=="2009")
+                        assert(dateArr(1)=="07")
+                        assert(dateArr(2)=="21")
           }
       }
       it("an invalid date field should return None") {

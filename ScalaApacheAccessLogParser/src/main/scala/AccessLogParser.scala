@@ -1,10 +1,13 @@
 package com.alvinalexander.accesslogparser
 
+import java.sql.{Date, Timestamp}
 import java.util.regex.Pattern
 import java.text.SimpleDateFormat
 import java.util.Locale
+
 import scala.util.control.Exception._
 import java.util.regex.Matcher
+
 import GeoDataHandler._
 import org.uaparser.scala.UserAgent.UserAgentParser
 import org.uaparser.scala._
@@ -75,7 +78,7 @@ class AccessLogParser extends Serializable {
             findIp(matcher.group(1)).countryName,
             matcher.group(2),
             matcher.group(3),
-            matcher.group(4),
+            AccessLogParser.parseDateField(matcher.group(4)),
             AccessLogParser.parseRequestField(matcher.group(5)),
             matcher.group(6),
             matcher.group(7),
@@ -90,7 +93,7 @@ class AccessLogParser extends Serializable {
  */
 object AccessLogParser {
 
-    val nullObjectAccessLogRecord = AccessLogRecord("","", "", "", "",None, "", "", "",Client(UserAgent("",None,None,None),OS("",None,None,None,None),Device("",None,None)) )
+    val nullObjectAccessLogRecord = AccessLogRecord("","", "", "", None,None, "", "", "",Client(UserAgent("",None,None,None),OS("",None,None,None,None),Device("",None,None)) )
     
     /**
      * @param A String like "GET /the-uri-here HTTP/1.1"
@@ -106,21 +109,19 @@ object AccessLogParser {
     /**
      * @param A String that looks like "[21/Jul/2009:02:48:13 -0700]"
      */
-    def parseDateField(field: String): Option[java.util.Date] = {
+    def parseDateField(field: String): Option[String] = {
         val dateRegex = "\\[(.*?) .+]"
         val datePattern = Pattern.compile(dateRegex)
         val dateMatcher = datePattern.matcher(field)
         if (dateMatcher.find) {
                 val dateString = dateMatcher.group(1)
-                println("***** DATE STRING" + dateString)
                 // HH is 0-23; kk is 1-24
                 val dateFormat = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss", Locale.ENGLISH)
-                allCatch.opt(dateFormat.parse(dateString))  // return Option[Date]
+                allCatch.opt(new Date(dateFormat.parse(dateString).getTime).toString)
             } else {
             None
         }
     }
-
 }
 
 
