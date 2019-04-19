@@ -1,10 +1,9 @@
 package com.alvinalexander.accesslogparser
 
-import java.sql.{Date, Timestamp}
+import org.joda.time.DateTime
 import java.util.regex.Pattern
 import java.text.SimpleDateFormat
 import java.util.Locale
-
 import scala.util.control.Exception._
 import java.util.regex.Matcher
 
@@ -117,7 +116,7 @@ object AccessLogParser {
                 val dateString = dateMatcher.group(1)
                 // HH is 0-23; kk is 1-24
                 val dateFormat = new SimpleDateFormat("dd/MMM/yyyy:HH:mm:ss", Locale.ENGLISH)
-                allCatch.opt(new Date(dateFormat.parse(dateString).getTime).toString)
+                allCatch.opt(new DateTime(dateFormat.parse(dateString).getTime).toString)
             } else {
             None
         }
