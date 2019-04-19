@@ -2,7 +2,8 @@ package com.ebiznext.sparktrain.job
 
 import com.alvinalexander.accesslogparser.AccessLogRecord
 import com.ebiznext.sparktrain.conf.Settings
-import com.ebiznext.sparktrain.data.IOJob.{read, readCSV, write}
+import com.ebiznext.sparktrain.io.{IngestAccessLogRecJob,IngestDemographicsJob}
+import com.ebiznext.sparktrain.io.WriteJob._
 import com.ebiznext.sparktrain.model.Request2Record
 import org.apache.hadoop.fs.Path
 import org.apache.spark.sql.expressions.Window
@@ -15,7 +16,7 @@ class Request2Job(os: Option[String] = None, browser: Option[String] = None)
   override val name = "Request 2 Job: Top 3 visited URI per country"
 
   import sparkSession.implicits._
-  val accessLogDs: Dataset[AccessLogRecord] = read(
+  val accessLogDs: Dataset[AccessLogRecord] = IngestAccessLogRecJob.read(
     new Path(Settings.sparktrain.inputPath ++ "accesslog2000.log"))
 
   def executeRequest(filterDf: Dataset[AccessLogRecord]) {
