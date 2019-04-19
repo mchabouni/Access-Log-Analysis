@@ -31,7 +31,7 @@ object HdfsHandler {
     * @param dest         : Location to save the file in hdfs
     */
   def moveFromLocal(source: Path, dest: Path): Unit = {
-    val fs = FileSystem.get(load())
+    val fs = FileSystem.get(load)
     fs.moveFromLocalFile(source, dest)
   }
 
@@ -80,14 +80,12 @@ object HdfsHandler {
   }
 
   def blockSize(path: Path): Long = {
-    val conf = new Configuration()
-    val fs = FileSystem.get(conf)
+    val fs = FileSystem.get(load)
     fs.getDefaultBlockSize(path)
   }
 
   def contentSummary(path: Path): ContentSummary = {
-    val conf = new Configuration()
-    val fs = FileSystem.get(conf)
+    val fs = FileSystem.get(load)
     fs.getContentSummary(path)
   }
 
