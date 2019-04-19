@@ -4,12 +4,12 @@ import com.alvinalexander.accesslogparser.AccessLogRecord
 import com.ebiznext.sparktrain.conf.Settings
 import org.apache.hadoop.fs.Path
 import com.ebiznext.sparktrain.data.IOJob._
-import com.ebiznext.sparktrain.data.OutputData.Request1Record
+import com.ebiznext.sparktrain.model.Request1Record
 import org.apache.spark.sql.{DataFrame, Dataset}
 import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.functions.{count, dense_rank, sum}
 
-object Request1Job extends RequestJob {
+object Request1Job extends SparkJob {
     override val name="Request 1 Job: Top 3 visited URI per country"
 
     def run() ={

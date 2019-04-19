@@ -2,7 +2,7 @@ package com.ebiznext.sparktrain.data
 
 import com.alvinalexander.accesslogparser.{AccessLogParser, AccessLogRecord}
 import com.ebiznext.sparktrain.conf.SparkEnv
-import com.ebiznext.sparktrain.data.InputData.Demographics
+import com.ebiznext.sparktrain.model.Demographics
 import com.ebiznext.sparktrain.handler.HdfsHandler._
 import com.typesafe.scalalogging.StrictLogging
 import org.apache.hadoop.fs.Path
