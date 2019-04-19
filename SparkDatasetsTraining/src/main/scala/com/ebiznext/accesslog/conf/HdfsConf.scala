@@ -18,19 +18,25 @@
  *
  */
 
-package com.ebiznext.sparktrain.job
-import com.ebiznext.sparktrain.conf.SparkEnv
-import com.typesafe.scalalogging.StrictLogging
-import org.apache.spark.sql.SparkSession
+package com.ebiznext.accesslog.conf
 
+import com.typesafe.config.{Config, ConfigFactory}
+import org.apache.hadoop.conf.Configuration
+import org.apache.hadoop.fs.Path
 
+object HdfsConf {
 
+  /**
+    * Loads Configurations for HDFS from core-site.xml
+    * @return HDFS configurations
+    */
+  def load(): Configuration = {
+    val hadoopConf = new Configuration()
+    val coreSiteXML = s"${System.getenv("SPARK_CONF_DIR")}/core-site.xml"
+    hadoopConf.addResource(new Path("file://" + coreSiteXML))
+    hadoopConf
+  }
 
-trait SparkJob extends StrictLogging{
-  def name: String
-
-  lazy val sparkEnv: SparkEnv = new SparkEnv(name)
-  lazy val sparkSession: SparkSession = sparkEnv.session
-
+  val config: Config = ConfigFactory.load()
 
 }

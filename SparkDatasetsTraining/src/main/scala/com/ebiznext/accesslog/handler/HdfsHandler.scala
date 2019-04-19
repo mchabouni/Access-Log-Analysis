@@ -18,8 +18,8 @@
  *
  */
 
-package com.ebiznext.sparktrain.handler
-import com.ebiznext.sparktrain.conf.HdfsConf._
+package com.ebiznext.accesslog.handler
+import com.ebiznext.accesslog.conf.HdfsConf._
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.{ContentSummary, FileSystem, Path}
 
@@ -79,16 +79,31 @@ object HdfsHandler {
       .toList
   }
 
+  /**
+    *
+    * @param path
+    * @return
+    */
   def blockSize(path: Path): Long = {
     val fs = FileSystem.get(load)
     fs.getDefaultBlockSize(path)
   }
 
+  /**
+    *
+    * @param path
+    * @return
+    */
   def contentSummary(path: Path): ContentSummary = {
     val fs = FileSystem.get(load)
     fs.getContentSummary(path)
   }
 
+  /**
+    * 
+    * @param path
+    * @return
+    */
   def spaceConsumed(path: Path): Long = {
     contentSummary(path).getSpaceConsumed
   }

@@ -1,7 +1,7 @@
-package com.ebiznext.sparktrain.conf
+package com.ebiznext.accesslog.conf
 
 import org.apache.spark.SparkConf
-import com.ebiznext.sparktrain.conf.HdfsConf._
+import com.ebiznext.accesslog.conf.HdfsConf._
 import org.apache.spark.sql.SparkSession
 
 class SparkEnv (name: String) {

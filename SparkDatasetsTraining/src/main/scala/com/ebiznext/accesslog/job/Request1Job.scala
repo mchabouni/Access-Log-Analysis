@@ -1,22 +1,27 @@
-package com.ebiznext.sparktrain.job
+package com.ebiznext.accesslog.job
 
-import com.alvinalexander.accesslogparser.AccessLogRecord
-import com.ebiznext.sparktrain.conf.Settings
+import com.ebiznext.accesslog.conf.Settings
 import org.apache.hadoop.fs.Path
-import com.ebiznext.sparktrain.io.{IngestAccessLogRecJob,IngestDemographicsJob}
-import com.ebiznext.sparktrain.io.WriteJob._
-import com.ebiznext.sparktrain.model.Request1Record
-import org.apache.spark.sql.{DataFrame, Dataset}
+import com.ebiznext.accesslog.io.{IngestAccessLogRecJob,IngestDemographicsJob}
+import com.ebiznext.accesslog.io.WriteJob._
+import com.ebiznext.accesslog.model.Request1Record
 import org.apache.spark.sql.expressions.Window
-import org.apache.spark.sql.functions.{count, dense_rank, sum}
+import org.apache.spark.sql.functions.{count, dense_rank}
 
 object Request1Job extends SparkJob {
     override val name="Request 1 Job: Top 3 visited URI per country"
 
+    /**
+      * Main entry point as required by the Spark Job interface
+      * The job compute Top 3 visited URI per country and store result to HDFS as parquet
+      * @return : Spark Session used for the job
+      */
     def run() ={
+        logger.info("===Start "++name++"===")
+
         import sparkSession.implicits._
         val demographicsDs=IngestDemographicsJob.read(new Path(Settings.sparktrain.inputPath++"population_per_country_2017.csv"))
-        val accessLogDs =IngestAccessLogRecJob.read(new Path(Settings.sparktrain.inputPath++"accesslog2000.log"))
+        val accessLogDs =IngestAccessLogRecJob.read(new Path(Settings.sparktrain.inputPath++"access.log"))
 
         val df=accessLogDs.select($"request.uri",$"country")
                             .groupBy($"uri",$"country")
@@ -30,6 +35,8 @@ object Request1Job extends SparkJob {
                         .where($"rank"<=3).as[Request1Record]
 
         write(new Path(Settings.sparktrain.savePath++"request1/"),dataSave)
+
+        logger.info("===Finished "++name++"===")
         sparkSession
     }
 

@@ -1,16 +1,16 @@
-package com.ebiznext.sparktrain.io
+package com.ebiznext.accesslog.io
 
 import com.alvinalexander.accesslogparser.{AccessLogParser, AccessLogRecord}
-import com.ebiznext.sparktrain.conf.SparkEnv
+import com.ebiznext.accesslog.conf.SparkEnv
 import org.apache.hadoop.fs.Path
 import org.apache.spark.sql.catalyst.encoders.ExpressionEncoder
 import org.apache.spark.sql.{Dataset, Encoder}
 
 object IngestAccessLogRecJob extends IngestionJob[AccessLogRecord] {
   /**
-    * Reads the csv files specified in the path into DataSet
+    * Reads the access.log file and parse each line
     * @param path path to start reading files from
-    * @return DataSet of AccessLogRecord corresponding to the read files.
+    * @return DataSet of AccessLogRecord.
     */
   def read(path: Path): Dataset[AccessLogRecord] = {
     val enc: Encoder[AccessLogRecord] = ExpressionEncoder()

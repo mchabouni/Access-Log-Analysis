@@ -1,4 +1,4 @@
-package com.ebiznext.sparktrain.conf
+package com.ebiznext.accesslog.conf
 
 import com.typesafe.config.{Config, ConfigFactory}
 import configs.syntax._
