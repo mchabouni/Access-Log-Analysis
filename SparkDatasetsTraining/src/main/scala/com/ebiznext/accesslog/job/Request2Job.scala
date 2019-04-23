@@ -10,12 +10,11 @@ import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.functions.{count, dense_rank}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
-class Request2Job(os: Option[String] = None, browser: Option[String] = None) extends SparkJob {
+class Request2Job(accessLogDs: Dataset[AccessLogRecord], os: Option[String] = None, browser: Option[String] = None) extends SparkJob {
 
   override val name = "Request 2 Job: Top 3 httpResponse by country given OS or browser or both "
 
   import sparkSession.implicits._
-  val accessLogDs: Dataset[AccessLogRecord] = IngestAccessLogRecJob.read(new Path(Settings.sparktrain.inputPath ++ "access.log"))
 
   /**
     * Compute Top 3 httpResponse by country given OS or browser or both

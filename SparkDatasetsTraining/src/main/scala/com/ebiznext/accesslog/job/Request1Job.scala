@@ -1,14 +1,15 @@
 package com.ebiznext.accesslog.job
 
+import com.alvinalexander.accesslogparser.AccessLogRecord
 import com.ebiznext.accesslog.conf.Settings
 import org.apache.hadoop.fs.Path
-import com.ebiznext.accesslog.io.{IngestAccessLogRecJob,IngestDemographicsJob}
 import com.ebiznext.accesslog.io.WriteJob._
-import com.ebiznext.accesslog.model.Request1Record
+import com.ebiznext.accesslog.model.{Demographics, Request1Record}
+import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.functions.{count, dense_rank}
 
-object Request1Job extends SparkJob {
+class Request1Job (demographicsDs: Dataset[Demographics],accessLogDs: Dataset[AccessLogRecord]) extends SparkJob {
     override val name="Request 1 Job: Top 3 visited URI per country"
 
     /**
@@ -20,8 +21,6 @@ object Request1Job extends SparkJob {
         logger.info("===Start "++name++"===")
 
         import sparkSession.implicits._
-        val demographicsDs=IngestDemographicsJob.read(new Path(Settings.sparktrain.inputPath++"population_per_country_2017.csv"))
-        val accessLogDs =IngestAccessLogRecJob.read(new Path(Settings.sparktrain.inputPath++"access.log"))
 
         val df=accessLogDs.select($"request.uri",$"country")
                             .groupBy($"uri",$"country")

@@ -8,7 +8,6 @@ import scala.util.control.Exception._
 import java.util.regex.Matcher
 
 import GeoDataHandler._
-import org.uaparser.scala.UserAgent.UserAgentParser
 import org.uaparser.scala._
 
 import scala.util.{Failure, Success, Try}

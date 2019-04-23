@@ -6,9 +6,10 @@ import configs.syntax._
 
 object Settings {
   final case class SparkTraining(
-                           inputPath:String,
-                           savePath :String
-                         )
+                                  logsPath:String,
+                                  demosPath:String,
+                                  savePath :String
+                                )
 
   val config: Config = ConfigFactory.load()
 

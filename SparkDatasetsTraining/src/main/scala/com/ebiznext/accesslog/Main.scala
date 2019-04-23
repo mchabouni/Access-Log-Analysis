@@ -24,7 +24,7 @@ import java.io.File
 import cats.effect.IO
 import com.alvinalexander.accesslogparser.{AccessLogParser, AccessLogRecord}
 import com.ebiznext.accesslog.conf.Settings
-import com.ebiznext.accesslog.io.IngestAccessLogRecJob
+import com.ebiznext.accesslog.io.{IngestAccessLogRecJob, IngestDemographicsJob}
 import com.ebiznext.accesslog.job._
 import com.ebiznext.accesslog.model.Demographics
 import com.snowplowanalytics.maxmind.iplookups.IpLookups
@@ -42,12 +42,16 @@ object Main {
 
   def main(args: Array[String]): Unit = {
 
-    Request1Job.run()
+    val accessLogDs: Dataset[AccessLogRecord] =IngestAccessLogRecJob.read(new Path(Settings.sparktrain.logsPath))
+    val demographicsDs: Dataset[Demographics] =IngestDemographicsJob.read(new Path(Settings.sparktrain.demosPath))
 
-    val rq2=new Request2Job(browser = Some("Chrome"),os = Some("Mac"))
+
+    val rq1= new Request1Job(demographicsDs,accessLogDs)
+    rq1.run()
+
+    val rq2=new Request2Job(accessLogDs,browser = Some("Chrome"),os = Some("Mac"))
     rq2.run()
 
-    val accessLogDs: Dataset[AccessLogRecord] =IngestAccessLogRecJob.read(new Path(Settings.sparktrain.inputPath++"access.log"))
     val index=new IndexJob[AccessLogRecord](accessLogDs,"accesslog","access")
     index.run()
 
