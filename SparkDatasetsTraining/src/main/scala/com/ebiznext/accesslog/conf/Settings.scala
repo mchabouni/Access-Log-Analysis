@@ -1,14 +1,19 @@
 package com.ebiznext.accesslog.conf
 
+import java.util.Map
+
 import com.typesafe.config.{Config, ConfigFactory}
 import configs.syntax._
 
 
 object Settings {
+  final case class Elasticsearch(active: Boolean, options: Map[String, String])
+
   final case class SparkTraining(
                                   logsPath:String,
                                   demosPath:String,
-                                  savePath :String
+                                  savePath :String,
+                                  elasticsearch:Elasticsearch
                                 )
 
   val config: Config = ConfigFactory.load()
