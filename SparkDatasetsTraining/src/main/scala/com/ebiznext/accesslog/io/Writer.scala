@@ -5,7 +5,7 @@ import com.typesafe.scalalogging.StrictLogging
 import org.apache.hadoop.fs.Path
 import org.apache.spark.sql.{Dataset, SaveMode}
 
-object WriteJob extends StrictLogging{
+trait Writer extends StrictLogging{
 
   /**
     * Saves a DataSet of generic type T into a parquet file

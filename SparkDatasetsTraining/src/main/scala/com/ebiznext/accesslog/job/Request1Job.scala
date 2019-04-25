@@ -3,13 +3,13 @@ package com.ebiznext.accesslog.job
 import com.alvinalexander.accesslogparser.AccessLogRecord
 import com.ebiznext.accesslog.conf.Settings
 import org.apache.hadoop.fs.Path
-import com.ebiznext.accesslog.io.WriteJob._
+import com.ebiznext.accesslog.io.Writer
 import com.ebiznext.accesslog.model.{Demographics, Request1Record}
 import org.apache.spark.sql.Dataset
 import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.functions.{count, dense_rank}
 
-class Request1Job (demographicsDs: Dataset[Demographics],accessLogDs: Dataset[AccessLogRecord]) extends SparkJob {
+class Request1Job (demographicsDs: Dataset[Demographics],accessLogDs: Dataset[AccessLogRecord]) extends SparkJob with Writer {
     override val name="Request 1 Job: Top 3 visited URI per country"
 
     /**

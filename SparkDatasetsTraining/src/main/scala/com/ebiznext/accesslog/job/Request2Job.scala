@@ -2,15 +2,14 @@ package com.ebiznext.accesslog.job
 
 import com.alvinalexander.accesslogparser.AccessLogRecord
 import com.ebiznext.accesslog.conf.Settings
-import com.ebiznext.accesslog.io.{IngestAccessLogRecJob}
-import com.ebiznext.accesslog.io.WriteJob._
+import com.ebiznext.accesslog.io.{IngestAccessLogRecJob, Writer}
 import com.ebiznext.accesslog.model.Request2Record
 import org.apache.hadoop.fs.Path
 import org.apache.spark.sql.expressions.Window
 import org.apache.spark.sql.functions.{count, dense_rank}
 import org.apache.spark.sql.{Dataset, SparkSession}
 
-class Request2Job(accessLogDs: Dataset[AccessLogRecord], os: Option[String] = None, browser: Option[String] = None) extends SparkJob {
+class Request2Job(accessLogDs: Dataset[AccessLogRecord], os: Option[String] = None, browser: Option[String] = None) extends SparkJob with Writer{
 
   override val name = "Request 2 Job: Top 3 httpResponse by country given OS or browser or both "
 
