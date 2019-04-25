@@ -9,4 +9,5 @@ object Versions {
   val mmIpLookup="0.5.0"
   val geoip="2.5.0"
   val esHadoop = "6.6.2"
+  val sttp = "1.5.11"
 }

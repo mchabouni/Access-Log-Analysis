@@ -21,7 +21,8 @@ object Dependencies {
     "com.fasterxml.jackson.core" % "jackson-databind" % Versions.jackson,
     "com.fasterxml.jackson.dataformat" % "jackson-dataformat-yaml" % Versions.jackson,
     "org.apache.spark" %% "spark-core" % Versions.spark ,
-    "org.apache.spark" %% "spark-sql" % Versions.spark
+    "org.apache.spark" %% "spark-sql" % Versions.spark,
+    "com.softwaremill.sttp" %% "core" % Versions.sttp
   )
 
   lazy val accessLogParserDependencies=Seq(
