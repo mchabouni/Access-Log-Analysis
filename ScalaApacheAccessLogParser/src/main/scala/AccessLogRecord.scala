@@ -1,5 +1,7 @@
 package com.alvinalexander.accesslogparser
 
+import java.sql.Timestamp
+
 import org.uaparser.scala.Client
 
 /**
@@ -10,7 +12,7 @@ case class AccessLogRecord (
                              country:String, //Country
                              rfc1413ClientIdentity: String, // typically `-`
                              remoteUser: String, // typically `-`
-                             dateTime: Option[String] , // [day/month/year:hour:minute:second zone]
+                             dateTime: Option[Timestamp], // [day/month/year:hour:minute:second zone]
                              request: Option[Request], // `GET /foo ...`
                              httpStatusCode: String, // 200, 404, etc.
                              bytesSent: String, // may be `-`
